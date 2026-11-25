@@ -1,9 +1,9 @@
 CC = gcc
 CPPFLAGS =
-CFLAGS = -Wall -Wextra -Werror -std=c11 -g -O0 
+CFLAGS = -Wall -Wextra -Werror -std=c11 -g -O0
 DEPFLAGS = -MMD -MP
-TARGET = evacuacion
-OBJS = parser.o capacity.o priority.o report.o main.o
+TARGET = resumen_taller
+OBJS = main.o leer_taller.o calcular_taller.o imprimir_taller.o
 DEPS = $(OBJS:.o=.d)
 
 all: $(TARGET)
@@ -14,9 +14,12 @@ $(TARGET): $(OBJS)
 %.o: %.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEPFLAGS) -c -o $@ $<
 
+test: $(TARGET)
+	../scripts/tests-run.sh ./$(TARGET) ../tests
+
 clean:
 	rm -f $(TARGET) $(OBJS) $(DEPS) ../tests/*.out ../tests/*.err ../tests/*.diff
 
 -include $(DEPS)
 
-.PHONY: all clean
+.PHONY: all clean test
